@@ -18,14 +18,25 @@ export default function Dashboard() {
 
   return (
     <>
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
+      {/* Modern Header */}
+      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-urban-text">Dashboard</h2>
-            <p className="text-sm text-gray-500">
-              Welcome back! Here's what's happening with your properties today.
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+            <p className="text-gray-600 flex items-center">
+              <span className="mr-2">🏢</span>
+              Welcome to Urban Bhoomi CRM - Your premium real estate hub
             </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-500 bg-gray-50 px-4 py-2 rounded-full">
+              {new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </div>
           </div>
         </div>
       </header>
@@ -33,23 +44,27 @@ export default function Dashboard() {
       {/* Content Area */}
       <main className="flex-1 overflow-y-auto p-6">
         {/* Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="metric-card">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-500">Total Customers</p>
-                  <p className="text-3xl font-bold text-urban-text">
-                    {isLoading ? "..." : metrics?.totalCustomers || 0}
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-urban-primary bg-opacity-10 rounded-lg flex items-center justify-center">
-                  <Users className="text-urban-primary" size={24} />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+          <Card className="stats-card group hover:scale-105 transition-transform duration-200">
+            <CardContent className="p-0">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-t-xl">
+                <div className="flex items-center justify-between">
+                  <div className="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                    <Users className="text-white" size={28} />
+                  </div>
+                  <div className="text-right">
+                    <p className="text-3xl font-bold text-gray-900">
+                      {isLoading ? "..." : metrics?.totalCustomers || 0}
+                    </p>
+                    <p className="text-sm text-blue-600 font-medium">Total Customers</p>
+                  </div>
                 </div>
               </div>
-              <div className="mt-4 flex items-center">
-                <span className="text-urban-success text-sm font-medium">+12.5%</span>
-                <span className="text-gray-500 text-sm ml-2">from last month</span>
+              <div className="p-4">
+                <div className="flex items-center">
+                  <TrendingUp className="text-green-500 mr-2" size={16} />
+                  <span className="text-sm text-green-600 font-medium">+12% from last month</span>
+                </div>
               </div>
             </CardContent>
           </Card>
