@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(210, 11%, 15%);
+  --muted: hsl(210, 40%, 96%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(210, 11%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(210, 11%, 15%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(210, 60%, 34%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(142, 43%, 42%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(210, 40%, 96%);
+  --accent-foreground: hsl(210, 11%, 15%);
+  --destructive: hsl(0, 64%, 59%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --success: hsl(142, 43%, 52%);
+  --success-foreground: hsl(0, 0%, 100%);
+  --warning: hsl(45, 93%, 47%);
+  --warning-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(210, 60%, 34%);
+  --radius: 0.5rem;
+  
+  /* Custom Urban Bhoomi colors */
+  --urban-primary: hsl(210, 60%, 34%); /* #2C5282 */
+  --urban-secondary: hsl(142, 43%, 42%); /* #38A169 */
+  --urban-background: hsl(210, 40%, 98%); /* #F7FAFC */
+  --urban-text: hsl(210, 11%, 15%); /* #2D3748 */
+  --urban-accent: hsl(0, 64%, 59%); /* #E53E3E */
+  --urban-success: hsl(142, 43%, 52%); /* #48BB78 */
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(210, 60%, 34%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(142, 43%, 42%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-urban-background text-urban-text;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+@layer components {
+  .sidebar-nav-item {
+    @apply flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors;
+  }
+  
+  .sidebar-nav-item.active {
+    @apply bg-urban-primary text-white hover:bg-urban-primary hover:text-white;
+  }
+  
+  .metric-card {
+    @apply bg-white p-6 rounded-lg shadow-sm border border-gray-200;
+  }
+  
+  .data-table {
+    @apply w-full border-collapse;
+  }
+  
+  .data-table th {
+    @apply px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+  }
+  
+  .data-table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm;
+  }
+  
+  .status-badge {
+    @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full;
+  }
+  
+  .status-badge.active {
+    @apply bg-urban-success bg-opacity-10 text-urban-success;
+  }
+  
+  .status-badge.inactive {
+    @apply bg-gray-500 bg-opacity-10 text-gray-500;
+  }
+  
+  .status-badge.follow-up {
+    @apply bg-warning bg-opacity-10 text-warning;
+  }
+  
+  .btn-primary {
+    @apply bg-urban-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-urban-secondary text-white px-4 py-2 rounded-lg hover:bg-green-700 font-medium transition-colors;
+  }
+}
