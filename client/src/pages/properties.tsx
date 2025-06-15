@@ -42,10 +42,40 @@ export default function Properties() {
 
   const filteredProperties = properties.filter((property) => {
     const matchesSearch = property.title.toLowerCase().includes(search.toLowerCase()) ||
-                         property.location.toLowerCase().includes(search.toLowerCase());
+                         property.location.toLowerCase().includes(search.toLowerCase()) ||
+                         (property.city && property.city.toLowerCase().includes(search.toLowerCase()));
+    
     const matchesCategory = categoryFilter === "all" || property.category === categoryFilter;
-    return matchesSearch && matchesCategory;
+    
+    const matchesPriceRange = priceRangeFilter === "all" || (() => {
+      const price = parseFloat(property.price);
+      switch (priceRangeFilter) {
+        case "0-50L": return price <= 5000000;
+        case "50L-1Cr": return price > 5000000 && price <= 10000000;
+        case "1Cr-2Cr": return price > 10000000 && price <= 20000000;
+        case "2Cr+": return price > 20000000;
+        default: return true;
+      }
+    })();
+    
+    const matchesBedrooms = bedroomsFilter === "all" || 
+      (property.bedrooms && property.bedrooms.toString() === bedroomsFilter);
+    
+    const matchesCity = cityFilter === "all" || 
+      (property.city && property.city === cityFilter);
+    
+    const matchesFurnishing = furnishingFilter === "all" || 
+      (property.furnishing === furnishingFilter);
+    
+    const matchesParking = parkingFilter === "all" || 
+      (parkingFilter === "yes" ? property.parking === true : property.parking === false);
+    
+    return matchesSearch && matchesCategory && matchesPriceRange && 
+           matchesBedrooms && matchesCity && matchesFurnishing && matchesParking;
   });
+
+  // Get unique cities for filter
+  const uniqueCities = Array.from(new Set(properties.map(p => p.city).filter(Boolean))).sort();
 
   const handleEdit = (property: Property) => {
     setEditingProperty(property);
@@ -111,6 +141,18 @@ export default function Properties() {
                 <SelectItem value="land">Land</SelectItem>
               </SelectContent>
             </Select>
+            <Select value={priceRangeFilter} onValueChange={setPriceRangeFilter}>
+              <SelectTrigger className="w-36">
+                <SelectValue placeholder="Price Range" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Prices</SelectItem>
+                <SelectItem value="0-50L">₹0-50L</SelectItem>
+                <SelectItem value="50L-1Cr">₹50L-1Cr</SelectItem>
+                <SelectItem value="1Cr-2Cr">₹1Cr-2Cr</SelectItem>
+                <SelectItem value="2Cr+">₹2Cr+</SelectItem>
+              </SelectContent>
+            </Select>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="btn-primary" onClick={() => setEditingProperty(null)}>
@@ -131,6 +173,73 @@ export default function Properties() {
               </DialogContent>
             </Dialog>
           </div>
+        </div>
+
+        {/* Additional Filters Row */}
+        <div className="flex items-center space-x-4 border-t pt-4">
+          <Select value={bedroomsFilter} onValueChange={setBedroomsFilter}>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Bedrooms" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any BHK</SelectItem>
+              <SelectItem value="1">1 BHK</SelectItem>
+              <SelectItem value="2">2 BHK</SelectItem>
+              <SelectItem value="3">3 BHK</SelectItem>
+              <SelectItem value="4">4+ BHK</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={cityFilter} onValueChange={setCityFilter}>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="City" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Cities</SelectItem>
+              {uniqueCities.map(city => (
+                <SelectItem key={city} value={city}>{city}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={furnishingFilter} onValueChange={setFurnishingFilter}>
+            <SelectTrigger className="w-36">
+              <SelectValue placeholder="Furnishing" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any Furnishing</SelectItem>
+              <SelectItem value="furnished">Furnished</SelectItem>
+              <SelectItem value="semi-furnished">Semi-Furnished</SelectItem>
+              <SelectItem value="unfurnished">Unfurnished</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={parkingFilter} onValueChange={setParkingFilter}>
+            <SelectTrigger className="w-32">
+              <SelectValue placeholder="Parking" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any Parking</SelectItem>
+              <SelectItem value="yes">With Parking</SelectItem>
+              <SelectItem value="no">No Parking</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              setSearch("");
+              setCategoryFilter("all");
+              setPriceRangeFilter("all");
+              setBedroomsFilter("all");
+              setCityFilter("all");
+              setFurnishingFilter("all");
+              setParkingFilter("all");
+            }}
+            className="text-sm"
+          >
+            Clear Filters
+          </Button>
         </div>
       </header>
 
@@ -163,7 +272,7 @@ export default function Properties() {
                   </div>
                   <p className="text-sm text-gray-500 mb-3 flex items-center">
                     <MapPin className="h-4 w-4 mr-1" />
-                    {property.location}
+                    {property.city ? `${property.city}, ${property.state}` : property.location}
                   </p>
                   <div className="flex items-center justify-between mb-3">
                     <div className="text-2xl font-bold text-urban-text">
