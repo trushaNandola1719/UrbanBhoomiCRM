@@ -13,7 +13,7 @@ import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
-    <div className="flex h-screen overflow-hidden bg-urban-background">
+    <div className="flex h-screen overflow-hidden" style={{backgroundColor: 'hsl(210, 40%, 98%)'}}>
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Switch>

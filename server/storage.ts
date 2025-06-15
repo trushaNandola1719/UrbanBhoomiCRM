@@ -178,8 +178,16 @@ export class MemStorage implements IStorage {
 
   async createCustomer(customer: InsertCustomer): Promise<Customer> {
     const newCustomer: Customer = {
-      ...customer,
       id: this.currentCustomerId++,
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+      preferences: customer.preferences || null,
+      budgetMin: customer.budgetMin || null,
+      budgetMax: customer.budgetMax || null,
+      notes: customer.notes || null,
+      status: customer.status || "active",
+      lastCallDate: customer.lastCallDate || null,
       createdAt: new Date(),
     };
     this.customers.set(newCustomer.id, newCustomer);
@@ -210,8 +218,21 @@ export class MemStorage implements IStorage {
 
   async createProperty(property: InsertProperty): Promise<Property> {
     const newProperty: Property = {
-      ...property,
       id: this.currentPropertyId++,
+      title: property.title,
+      description: property.description || null,
+      category: property.category,
+      price: property.price,
+      location: property.location,
+      address: property.address || null,
+      bedrooms: property.bedrooms || null,
+      bathrooms: property.bathrooms || null,
+      area: property.area || null,
+      ownerName: property.ownerName || null,
+      ownerContact: property.ownerContact || null,
+      images: property.images || null,
+      amenities: property.amenities || null,
+      status: property.status || "available",
       createdAt: new Date(),
     };
     this.properties.set(newProperty.id, newProperty);
@@ -242,8 +263,14 @@ export class MemStorage implements IStorage {
 
   async createBroker(broker: InsertBroker): Promise<Broker> {
     const newBroker: Broker = {
-      ...broker,
       id: this.currentBrokerId++,
+      name: broker.name,
+      email: broker.email,
+      phone: broker.phone,
+      specialization: broker.specialization || null,
+      commissionRate: broker.commissionRate || "2.5",
+      totalCommission: broker.totalCommission || "0",
+      status: broker.status || "active",
       createdAt: new Date(),
     };
     this.brokers.set(newBroker.id, newBroker);
@@ -288,8 +315,15 @@ export class MemStorage implements IStorage {
 
   async createVisit(visit: InsertVisit): Promise<Visit> {
     const newVisit: Visit = {
-      ...visit,
       id: this.currentVisitId++,
+      customerId: visit.customerId,
+      propertyId: visit.propertyId,
+      brokerId: visit.brokerId || null,
+      visitDate: visit.visitDate,
+      feedback: visit.feedback || null,
+      rating: visit.rating || null,
+      notes: visit.notes || null,
+      status: visit.status || "completed",
       createdAt: new Date(),
     };
     this.visits.set(newVisit.id, newVisit);

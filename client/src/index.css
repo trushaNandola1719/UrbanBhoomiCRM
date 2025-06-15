@@ -66,7 +66,9 @@
   }
 
   body {
-    @apply font-sans antialiased bg-urban-background text-urban-text;
+    @apply font-sans antialiased;
+    background-color: hsl(var(--urban-background));
+    color: hsl(var(--urban-text));
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
@@ -77,7 +79,13 @@
   }
   
   .sidebar-nav-item.active {
-    @apply bg-urban-primary text-white hover:bg-urban-primary hover:text-white;
+    background-color: hsl(var(--urban-primary));
+    color: white;
+  }
+  
+  .sidebar-nav-item.active:hover {
+    background-color: hsl(var(--urban-primary));
+    color: white;
   }
   
   .metric-card {
@@ -101,22 +109,43 @@
   }
   
   .status-badge.active {
-    @apply bg-urban-success bg-opacity-10 text-urban-success;
+    background-color: rgba(72, 187, 120, 0.1);
+    color: #48BB78;
   }
   
   .status-badge.inactive {
-    @apply bg-gray-500 bg-opacity-10 text-gray-500;
+    background-color: rgba(107, 114, 128, 0.1);
+    color: #6B7280;
   }
   
   .status-badge.follow-up {
-    @apply bg-warning bg-opacity-10 text-warning;
+    background-color: rgba(251, 191, 36, 0.1);
+    color: #F59E0B;
   }
   
   .btn-primary {
-    @apply bg-urban-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium transition-colors;
+    background-color: #2C5282;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  .btn-primary:hover {
+    background-color: #1A365D;
   }
   
   .btn-secondary {
-    @apply bg-urban-secondary text-white px-4 py-2 rounded-lg hover:bg-green-700 font-medium transition-colors;
+    background-color: #38A169;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #2F855A;
   }
 }
