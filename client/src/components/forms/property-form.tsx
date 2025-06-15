@@ -17,6 +17,12 @@ const formSchema = insertPropertySchema.extend({
   bedrooms: z.string().optional(),
   bathrooms: z.string().optional(),
   area: z.string().optional(),
+  latitude: z.string().optional(),
+  longitude: z.string().optional(),
+  floor: z.string().optional(),
+  totalFloors: z.string().optional(),
+  age: z.string().optional(),
+  parking: z.boolean().optional(),
 });
 
 interface PropertyFormProps {
@@ -36,12 +42,23 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       price: property?.price || "",
       location: property?.location || "",
       address: property?.address || "",
+      latitude: property?.latitude || "",
+      longitude: property?.longitude || "",
+      city: property?.city || "",
+      state: property?.state || "",
+      pincode: property?.pincode || "",
       bedrooms: property?.bedrooms?.toString() || "",
       bathrooms: property?.bathrooms?.toString() || "",
       area: property?.area || "",
       ownerName: property?.ownerName || "",
       ownerContact: property?.ownerContact || "",
       amenities: property?.amenities || "[]",
+      furnishing: property?.furnishing || "",
+      parking: property?.parking || false,
+      facing: property?.facing || "",
+      floor: property?.floor?.toString() || "",
+      totalFloors: property?.totalFloors?.toString() || "",
+      age: property?.age?.toString() || "",
       status: property?.status || "available",
     },
   });
@@ -76,6 +93,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       ...values,
       bedrooms: values.bedrooms ? parseInt(values.bedrooms) : null,
       bathrooms: values.bathrooms ? parseInt(values.bathrooms) : null,
+      floor: values.floor ? parseInt(values.floor) : null,
+      totalFloors: values.totalFloors ? parseInt(values.totalFloors) : null,
+      age: values.age ? parseInt(values.age) : null,
       images: "[]", // Default empty array for images
     };
 
@@ -234,13 +254,88 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <Textarea 
                   rows={2} 
                   placeholder="Complete address with pincode" 
-                  {...field} 
+                  value={field.value || ""} 
+                  onChange={field.onChange}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Mumbai" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Maharashtra" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="pincode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Pincode</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., 400058" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="latitude"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Latitude (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., 19.1359" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="longitude"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Longitude (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., 72.8267" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}

@@ -33,7 +33,7 @@
   --urban-secondary: hsl(142, 43%, 42%); /* #38A169 */
   --urban-background: hsl(210, 40%, 98%); /* #F7FAFC */
   --urban-text: hsl(210, 11%, 15%); /* #2D3748 */
-  --urban-accent: hsl(0, 64%, 59%); /* #E53E3E */
+  --urban-accent: hsl(25, 47%, 55%); /* #B8753E - Muted rust orange */
   --urban-success: hsl(142, 43%, 52%); /* #48BB78 */
 }
 

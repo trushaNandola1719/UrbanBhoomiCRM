@@ -16,6 +16,11 @@ import type { Property } from "@shared/schema";
 export default function Properties() {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [priceRangeFilter, setPriceRangeFilter] = useState("all");
+  const [bedroomsFilter, setBedroomsFilter] = useState("all");
+  const [cityFilter, setCityFilter] = useState("all");
+  const [furnishingFilter, setFurnishingFilter] = useState("all");
+  const [parkingFilter, setParkingFilter] = useState("all");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProperty, setEditingProperty] = useState<Property | null>(null);
   const { toast } = useToast();

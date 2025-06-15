@@ -24,6 +24,11 @@ export const properties = pgTable("properties", {
   price: decimal("price", { precision: 12, scale: 2 }).notNull(),
   location: text("location").notNull(),
   address: text("address"),
+  latitude: decimal("latitude", { precision: 10, scale: 8 }),
+  longitude: decimal("longitude", { precision: 11, scale: 8 }),
+  city: text("city"),
+  state: text("state"),
+  pincode: text("pincode"),
   bedrooms: integer("bedrooms"),
   bathrooms: integer("bathrooms"),
   area: decimal("area", { precision: 8, scale: 2 }), // in sq ft
@@ -31,6 +36,12 @@ export const properties = pgTable("properties", {
   ownerContact: text("owner_contact"),
   images: text("images"), // JSON array of image URLs
   amenities: text("amenities"), // JSON array of amenities
+  furnishing: text("furnishing"), // furnished, semi-furnished, unfurnished
+  parking: boolean("parking").default(false),
+  facing: text("facing"), // north, south, east, west, etc
+  floor: integer("floor"),
+  totalFloors: integer("total_floors"),
+  age: integer("age"), // property age in years
   status: text("status").notNull().default("available"), // available, sold, rented
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
