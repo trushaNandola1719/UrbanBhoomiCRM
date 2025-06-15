@@ -109,55 +109,24 @@ export default function Properties() {
 
   return (
     <>
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
+      {/* Modern Header */}
+      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
-            <h2 className="text-2xl font-bold text-urban-text">Property Management</h2>
-            <p className="text-sm text-gray-500">
-              View and manage all property listings and details.
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Property Portfolio</h1>
+            <p className="text-gray-600 flex items-center">
+              <span className="mr-2">📍</span>
+              Discover and manage premium real estate listings
             </p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Input
-                type="text"
-                placeholder="Search properties..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 pr-4 py-2 w-64"
-              />
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="All Types" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="flats">Flats</SelectItem>
-                <SelectItem value="tenement">Tenement</SelectItem>
-                <SelectItem value="bungalow">Bungalow</SelectItem>
-                <SelectItem value="land">Land</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={priceRangeFilter} onValueChange={setPriceRangeFilter}>
-              <SelectTrigger className="w-36">
-                <SelectValue placeholder="Price Range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Prices</SelectItem>
-                <SelectItem value="0-50L">₹0-50L</SelectItem>
-                <SelectItem value="50L-1Cr">₹50L-1Cr</SelectItem>
-                <SelectItem value="1Cr-2Cr">₹1Cr-2Cr</SelectItem>
-                <SelectItem value="2Cr+">₹2Cr+</SelectItem>
-              </SelectContent>
-            </Select>
+          
+          {/* Quick Actions */}
+          <div className="flex items-center gap-3">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="btn-primary" onClick={() => setEditingProperty(null)}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add Property
+                <Button className="btn-primary flex items-center gap-2" onClick={() => setEditingProperty(null)}>
+                  <Plus className="h-5 w-5" />
+                  Add New Property
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -175,71 +144,133 @@ export default function Properties() {
           </div>
         </div>
 
-        {/* Additional Filters Row */}
-        <div className="flex items-center space-x-4 border-t pt-4">
-          <Select value={bedroomsFilter} onValueChange={setBedroomsFilter}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Bedrooms" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Any BHK</SelectItem>
-              <SelectItem value="1">1 BHK</SelectItem>
-              <SelectItem value="2">2 BHK</SelectItem>
-              <SelectItem value="3">3 BHK</SelectItem>
-              <SelectItem value="4">4+ BHK</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Modern Filter Panel */}
+        <div className="modern-filter-row">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Search Bar */}
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search by name, location, or city..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="modern-input pl-11 pr-4"
+              />
+            </div>
 
-          <Select value={cityFilter} onValueChange={setCityFilter}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="City" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Cities</SelectItem>
-              {uniqueCities.map(city => (
-                <SelectItem key={city} value={city}>{city}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            {/* Primary Filters */}
+            <div className="flex flex-wrap gap-3">
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="modern-select w-40">
+                  <SelectValue placeholder="Property Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="flats">🏢 Apartments</SelectItem>
+                  <SelectItem value="tenement">🏘️ Tenements</SelectItem>
+                  <SelectItem value="bungalow">🏡 Bungalows</SelectItem>
+                  <SelectItem value="land">🌳 Land</SelectItem>
+                </SelectContent>
+              </Select>
 
-          <Select value={furnishingFilter} onValueChange={setFurnishingFilter}>
-            <SelectTrigger className="w-36">
-              <SelectValue placeholder="Furnishing" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Any Furnishing</SelectItem>
-              <SelectItem value="furnished">Furnished</SelectItem>
-              <SelectItem value="semi-furnished">Semi-Furnished</SelectItem>
-              <SelectItem value="unfurnished">Unfurnished</SelectItem>
-            </SelectContent>
-          </Select>
+              <Select value={priceRangeFilter} onValueChange={setPriceRangeFilter}>
+                <SelectTrigger className="modern-select w-36">
+                  <SelectValue placeholder="Budget" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Any Price</SelectItem>
+                  <SelectItem value="0-50L">₹0-50L</SelectItem>
+                  <SelectItem value="50L-1Cr">₹50L-1Cr</SelectItem>
+                  <SelectItem value="1Cr-2Cr">₹1Cr-2Cr</SelectItem>
+                  <SelectItem value="2Cr+">₹2Cr+</SelectItem>
+                </SelectContent>
+              </Select>
 
-          <Select value={parkingFilter} onValueChange={setParkingFilter}>
-            <SelectTrigger className="w-32">
-              <SelectValue placeholder="Parking" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Any Parking</SelectItem>
-              <SelectItem value="yes">With Parking</SelectItem>
-              <SelectItem value="no">No Parking</SelectItem>
-            </SelectContent>
-          </Select>
+              <Select value={bedroomsFilter} onValueChange={setBedroomsFilter}>
+                <SelectTrigger className="modern-select w-32">
+                  <SelectValue placeholder="BHK" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Any BHK</SelectItem>
+                  <SelectItem value="1">1 BHK</SelectItem>
+                  <SelectItem value="2">2 BHK</SelectItem>
+                  <SelectItem value="3">3 BHK</SelectItem>
+                  <SelectItem value="4">4+ BHK</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <Button 
-            variant="outline" 
-            onClick={() => {
-              setSearch("");
-              setCategoryFilter("all");
-              setPriceRangeFilter("all");
-              setBedroomsFilter("all");
-              setCityFilter("all");
-              setFurnishingFilter("all");
-              setParkingFilter("all");
-            }}
-            className="text-sm"
-          >
-            Clear Filters
-          </Button>
+            {/* Secondary Filters */}
+            <div className="flex flex-wrap gap-3">
+              <Select value={cityFilter} onValueChange={setCityFilter}>
+                <SelectTrigger className="modern-select w-32">
+                  <SelectValue placeholder="City" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Cities</SelectItem>
+                  {uniqueCities.map(city => (
+                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={furnishingFilter} onValueChange={setFurnishingFilter}>
+                <SelectTrigger className="modern-select w-36">
+                  <SelectValue placeholder="Furnishing" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Any Furnishing</SelectItem>
+                  <SelectItem value="furnished">🪑 Furnished</SelectItem>
+                  <SelectItem value="semi-furnished">🛏️ Semi-Furnished</SelectItem>
+                  <SelectItem value="unfurnished">📦 Unfurnished</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={parkingFilter} onValueChange={setParkingFilter}>
+                <SelectTrigger className="modern-select w-32">
+                  <SelectValue placeholder="Parking" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Any</SelectItem>
+                  <SelectItem value="yes">🚗 With Parking</SelectItem>
+                  <SelectItem value="no">❌ No Parking</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSearch("");
+                  setCategoryFilter("all");
+                  setPriceRangeFilter("all");
+                  setBedroomsFilter("all");
+                  setCityFilter("all");
+                  setFurnishingFilter("all");
+                  setParkingFilter("all");
+                }}
+                className="px-4 py-2 text-sm hover:bg-gray-50 border-gray-200"
+              >
+                Clear All
+              </Button>
+            </div>
+          </div>
+
+          {/* Active Filters Display */}
+          {(search || categoryFilter !== "all" || priceRangeFilter !== "all" || bedroomsFilter !== "all" || cityFilter !== "all" || furnishingFilter !== "all" || parkingFilter !== "all") && (
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-sm font-medium text-gray-700">Active filters:</span>
+                {search && <span className="filter-badge">Search: "{search}"</span>}
+                {categoryFilter !== "all" && <span className="filter-badge">Type: {getCategoryLabel(categoryFilter)}</span>}
+                {priceRangeFilter !== "all" && <span className="filter-badge">Price: {priceRangeFilter}</span>}
+                {bedroomsFilter !== "all" && <span className="filter-badge">BHK: {bedroomsFilter}</span>}
+                {cityFilter !== "all" && <span className="filter-badge">City: {cityFilter}</span>}
+                {furnishingFilter !== "all" && <span className="filter-badge">Furnishing: {furnishingFilter}</span>}
+                {parkingFilter !== "all" && <span className="filter-badge">Parking: {parkingFilter === "yes" ? "Required" : "Not Required"}</span>}
+              </div>
+            </div>
+          )}
         </div>
       </header>
 

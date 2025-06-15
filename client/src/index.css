@@ -67,7 +67,7 @@
 
   body {
     @apply font-sans antialiased;
-    background-color: hsl(var(--urban-background));
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     color: hsl(var(--urban-text));
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -124,28 +124,68 @@
   }
   
   .btn-primary {
-    background-color: #2C5282;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background-color 0.15s ease-in-out;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+    border: none;
   }
   
   .btn-primary:hover {
-    background-color: #1A365D;
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px -1px rgba(59, 130, 246, 0.4);
   }
   
   .btn-secondary {
-    background-color: #38A169;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background-color 0.15s ease-in-out;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+    border: none;
   }
   
   .btn-secondary:hover {
-    background-color: #2F855A;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px -1px rgba(16, 185, 129, 0.4);
+  }
+
+  .modern-card {
+    @apply bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100;
+  }
+
+  .modern-filter-row {
+    @apply bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6;
+  }
+
+  .modern-input {
+    @apply bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 px-4 py-2.5;
+  }
+
+  .modern-select {
+    @apply bg-white border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200;
+  }
+
+  .property-card {
+    @apply bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden;
+  }
+
+  .property-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .stats-card {
+    @apply bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300;
+  }
+
+  .filter-badge {
+    @apply inline-flex items-center px-3 py-1.5 text-sm font-medium bg-blue-50 text-blue-700 rounded-full border border-blue-200;
   }
 }
