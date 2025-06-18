@@ -41,12 +41,26 @@ export interface IStorage {
   updateVisit(id: number, visit: Partial<InsertVisit>): Promise<Visit | undefined>;
   deleteVisit(id: number): Promise<boolean>;
   
+  // Interaction operations
+  getInteractions(): Promise<InteractionWithDetails[]>;
+  getInteraction(id: number): Promise<InteractionWithDetails | undefined>;
+  createInteraction(interaction: InsertInteraction): Promise<Interaction>;
+  updateInteraction(id: number, interaction: Partial<InsertInteraction>): Promise<Interaction | undefined>;
+  deleteInteraction(id: number): Promise<boolean>;
+  
+  // Property Interest operations
+  getPropertyInterests(): Promise<PropertyInterest[]>;
+  createPropertyInterest(interest: InsertPropertyInterest): Promise<PropertyInterest>;
+  deletePropertyInterest(customerId: number, propertyId: number): Promise<boolean>;
+  
   // Dashboard metrics
   getDashboardMetrics(): Promise<{
     totalCustomers: number;
     activeProperties: number;
     visitsThisMonth: number;
     totalRevenue: number;
+    interactionsThisMonth: number;
+    hotLeads: number;
   }>;
 }
 
@@ -55,10 +69,14 @@ export class MemStorage implements IStorage {
   private properties: Map<number, Property> = new Map();
   private brokers: Map<number, Broker> = new Map();
   private visits: Map<number, Visit> = new Map();
+  private interactions: Map<number, Interaction> = new Map();
+  private propertyInterests: Map<string, PropertyInterest> = new Map();
   private currentCustomerId = 1;
   private currentPropertyId = 1;
   private currentBrokerId = 1;
   private currentVisitId = 1;
+  private currentInteractionId = 1;
+  private currentPropertyInterestId = 1;
 
   constructor() {
     // Initialize with some sample data for development
@@ -72,12 +90,23 @@ export class MemStorage implements IStorage {
       name: "Rajesh Kumar",
       email: "rajesh.kumar@email.com",
       phone: "+91 98765 43210",
-      preferences: "2-3 BHK Apartment",
+      alternatePhone: null,
+      address: "Andheri West, Mumbai",
+      city: "Mumbai",
+      state: "Maharashtra",
+      pincode: "400058",
+      occupation: "Software Engineer",
+      annualIncome: "1200000",
       budgetMin: "8000000",
       budgetMax: "12000000",
+      preferredLocations: JSON.stringify(["Andheri", "Bandra", "Juhu"]),
+      propertyType: "apartment",
+      priority: "warm",
+      source: "referral",
+      assignedBrokerId: 1,
       notes: "Looking for properties in Andheri area",
       status: "active",
-      lastCallDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      lastInteractionDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
       createdAt: new Date(),
     };
 
@@ -86,12 +115,23 @@ export class MemStorage implements IStorage {
       name: "Priya Sharma",
       email: "priya.sharma@email.com",
       phone: "+91 87654 32109",
-      preferences: "Independent Bungalow",
+      alternatePhone: "+91 22345 67890",
+      address: "Bandra East, Mumbai",
+      city: "Mumbai",
+      state: "Maharashtra",
+      pincode: "400051",
+      occupation: "Business Owner",
+      annualIncome: "2500000",
       budgetMin: "15000000",
       budgetMax: "20000000",
+      preferredLocations: JSON.stringify(["Bandra", "Khar", "Santacruz"]),
+      propertyType: "villa",
+      priority: "hot",
+      source: "website",
+      assignedBrokerId: 1,
       notes: "Prefers properties with garden space",
-      status: "follow-up",
-      lastCallDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+      status: "active",
+      lastInteractionDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
       createdAt: new Date(),
     };
 
@@ -168,9 +208,23 @@ export class MemStorage implements IStorage {
       name: "Amit Mehta",
       email: "amit.mehta@email.com",
       phone: "+91 99887 76655",
+      alternatePhone: null,
+      address: "Powai, Mumbai",
+      city: "Mumbai",
+      state: "Maharashtra",
+      pincode: "400076",
+      notes: "Expert in luxury properties",
       specialization: JSON.stringify(["Luxury Apartments", "Commercial Properties"]),
+      experience: 8,
       commissionRate: "2.5",
       totalCommission: "240000",
+      affiliation: "in-house",
+      licenseNumber: "MH/REA/2016/AMT001",
+      education: "MBA Real Estate",
+      languages: JSON.stringify(["English", "Hindi", "Marathi"]),
+      certifications: JSON.stringify(["RERA Certified", "Real Estate License"]),
+      socialMediaLinks: JSON.stringify({"linkedin": "https://linkedin.com/in/amitmehta"}),
+      performanceRating: "4.5",
       status: "active",
       createdAt: new Date(),
     };
