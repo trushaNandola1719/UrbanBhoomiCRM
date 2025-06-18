@@ -5,7 +5,9 @@ import {
   insertCustomerSchema, 
   insertPropertySchema, 
   insertBrokerSchema, 
-  insertVisitSchema 
+  insertVisitSchema,
+  insertInteractionSchema,
+  insertPropertyInterestSchema
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -256,6 +258,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(204).send();
     } catch (error) {
       res.status(500).json({ message: "Failed to delete visit" });
+    }
+  });
+
+  // Interaction routes
+  app.get("/api/interactions", async (req, res) => {
+    try {
+      const interactions = await storage.getInteractions();
+      res.json(interactions);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch interactions" });
+    }
+  });
+
+  app.get("/api/interactions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const interaction = await storage.getInteraction(id);
+      if (!interaction) {
+        return res.status(404).json({ message: "Interaction not found" });
+      }
+      res.json(interaction);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch interaction" });
+    }
+  });
+
+  app.post("/api/interactions", async (req, res) => {
+    try {
+      const validatedData = insertInteractionSchema.parse(req.body);
+      const interaction = await storage.createInteraction(validatedData);
+      res.status(201).json(interaction);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid interaction data", error });
+    }
+  });
+
+  app.put("/api/interactions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const validatedData = insertInteractionSchema.partial().parse(req.body);
+      const interaction = await storage.updateInteraction(id, validatedData);
+      if (!interaction) {
+        return res.status(404).json({ message: "Interaction not found" });
+      }
+      res.json(interaction);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid interaction data", error });
+    }
+  });
+
+  app.delete("/api/interactions/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteInteraction(id);
+      if (!deleted) {
+        return res.status(404).json({ message: "Interaction not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete interaction" });
+    }
+  });
+
+  // Property Interest routes
+  app.get("/api/property-interests", async (req, res) => {
+    try {
+      const interests = await storage.getPropertyInterests();
+      res.json(interests);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch property interests" });
+    }
+  });
+
+  app.post("/api/property-interests", async (req, res) => {
+    try {
+      const validatedData = insertPropertyInterestSchema.parse(req.body);
+      const interest = await storage.createPropertyInterest(validatedData);
+      res.status(201).json(interest);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid property interest data", error });
+    }
+  });
+
+  app.delete("/api/property-interests/:customerId/:propertyId", async (req, res) => {
+    try {
+      const customerId = parseInt(req.params.customerId);
+      const propertyId = parseInt(req.params.propertyId);
+      const deleted = await storage.deletePropertyInterest(customerId, propertyId);
+      if (!deleted) {
+        return res.status(404).json({ message: "Property interest not found" });
+      }
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete property interest" });
     }
   });
 

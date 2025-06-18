@@ -246,6 +246,60 @@ export class MemStorage implements IStorage {
     };
 
     this.visits.set(sampleVisit1.id, sampleVisit1);
+
+    // Sample interactions
+    const sampleInteraction1: Interaction = {
+      id: this.currentInteractionId++,
+      customerId: sampleCustomer1.id,
+      brokerId: sampleBroker1.id,
+      propertyId: sampleProperty1.id,
+      type: "digital_sharing",
+      method: "whatsapp",
+      description: "Shared property details and virtual tour link",
+      outcome: "interested",
+      followUpRequired: true,
+      followUpDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+      priority: "high",
+      duration: 15,
+      customerFeedback: "Very interested, wants to schedule visit",
+      notes: "Customer loved the amenities and location",
+      status: "completed",
+      createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+    };
+
+    const sampleInteraction2: Interaction = {
+      id: this.currentInteractionId++,
+      customerId: sampleCustomer2.id,
+      brokerId: sampleBroker1.id,
+      propertyId: null,
+      type: "follow_up",
+      method: "phone",
+      description: "Follow-up call to understand requirements better",
+      outcome: "negotiating",
+      followUpRequired: true,
+      followUpDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      priority: "medium",
+      duration: 25,
+      customerFeedback: "Considering multiple options",
+      notes: "Needs properties with garden space",
+      status: "completed",
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+    };
+
+    this.interactions.set(sampleInteraction1.id, sampleInteraction1);
+    this.interactions.set(sampleInteraction2.id, sampleInteraction2);
+
+    // Sample property interests
+    const sampleInterest1: PropertyInterest = {
+      id: this.currentPropertyInterestId++,
+      customerId: sampleCustomer1.id,
+      propertyId: sampleProperty1.id,
+      interestLevel: "high",
+      notes: "Primary choice for the customer",
+      createdAt: new Date(),
+    };
+
+    this.propertyInterests.set(`${sampleCustomer1.id}-${sampleProperty1.id}`, sampleInterest1);
   }
 
   // Customer operations
@@ -435,17 +489,108 @@ export class MemStorage implements IStorage {
     return this.visits.delete(id);
   }
 
+  // Interaction operations
+  async getInteractions(): Promise<InteractionWithDetails[]> {
+    const interactions = Array.from(this.interactions.values());
+    return interactions.map(interaction => ({
+      ...interaction,
+      customer: this.customers.get(interaction.customerId)!,
+      broker: this.brokers.get(interaction.brokerId)!,
+      property: interaction.propertyId ? this.properties.get(interaction.propertyId) : undefined,
+    }));
+  }
+
+  async getInteraction(id: number): Promise<InteractionWithDetails | undefined> {
+    const interaction = this.interactions.get(id);
+    if (!interaction) return undefined;
+    
+    return {
+      ...interaction,
+      customer: this.customers.get(interaction.customerId)!,
+      broker: this.brokers.get(interaction.brokerId)!,
+      property: interaction.propertyId ? this.properties.get(interaction.propertyId) : undefined,
+    };
+  }
+
+  async createInteraction(interaction: InsertInteraction): Promise<Interaction> {
+    const newInteraction: Interaction = {
+      id: this.currentInteractionId++,
+      customerId: interaction.customerId,
+      brokerId: interaction.brokerId,
+      propertyId: interaction.propertyId || null,
+      type: interaction.type,
+      method: interaction.method,
+      description: interaction.description,
+      outcome: interaction.outcome,
+      followUpRequired: interaction.followUpRequired || false,
+      followUpDate: interaction.followUpDate || null,
+      priority: interaction.priority || "medium",
+      duration: interaction.duration || null,
+      customerFeedback: interaction.customerFeedback || null,
+      notes: interaction.notes || null,
+      status: interaction.status || "completed",
+      createdAt: new Date(),
+    };
+    this.interactions.set(newInteraction.id, newInteraction);
+    return newInteraction;
+  }
+
+  async updateInteraction(id: number, interaction: Partial<InsertInteraction>): Promise<Interaction | undefined> {
+    const existing = this.interactions.get(id);
+    if (!existing) return undefined;
+    
+    const updated = { ...existing, ...interaction };
+    this.interactions.set(id, updated);
+    return updated;
+  }
+
+  async deleteInteraction(id: number): Promise<boolean> {
+    return this.interactions.delete(id);
+  }
+
+  // Property Interest operations
+  async getPropertyInterests(): Promise<PropertyInterest[]> {
+    return Array.from(this.propertyInterests.values());
+  }
+
+  async createPropertyInterest(interest: InsertPropertyInterest): Promise<PropertyInterest> {
+    const newInterest: PropertyInterest = {
+      id: this.currentPropertyInterestId++,
+      customerId: interest.customerId,
+      propertyId: interest.propertyId,
+      interestLevel: interest.interestLevel,
+      notes: interest.notes || null,
+      createdAt: new Date(),
+    };
+    this.propertyInterests.set(`${interest.customerId}-${interest.propertyId}`, newInterest);
+    return newInterest;
+  }
+
+  async deletePropertyInterest(customerId: number, propertyId: number): Promise<boolean> {
+    return this.propertyInterests.delete(`${customerId}-${propertyId}`);
+  }
+
   async getDashboardMetrics(): Promise<{
     totalCustomers: number;
     activeProperties: number;
     visitsThisMonth: number;
     totalRevenue: number;
+    interactionsThisMonth: number;
+    hotLeads: number;
   }> {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     
     const visitsThisMonth = Array.from(this.visits.values()).filter(
       visit => visit.visitDate >= startOfMonth
+    ).length;
+    
+    const interactionsThisMonth = Array.from(this.interactions.values()).filter(
+      interaction => interaction.createdAt >= startOfMonth
+    ).length;
+    
+    const hotLeads = Array.from(this.customers.values()).filter(
+      customer => customer.priority === "hot"
     ).length;
 
     const totalRevenue = Array.from(this.properties.values())
@@ -457,6 +602,8 @@ export class MemStorage implements IStorage {
       activeProperties: Array.from(this.properties.values()).filter(p => p.status === "available").length,
       visitsThisMonth,
       totalRevenue,
+      interactionsThisMonth,
+      hotLeads,
     };
   }
 }
