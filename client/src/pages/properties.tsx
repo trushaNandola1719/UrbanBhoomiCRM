@@ -210,7 +210,7 @@ export default function Properties() {
                 <SelectContent>
                   <SelectItem value="all">All Cities</SelectItem>
                   {uniqueCities.map(city => (
-                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                    <SelectItem key={city} value={city || ""}>{city}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

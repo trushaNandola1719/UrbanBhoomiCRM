@@ -1,0 +1,32 @@
+make me a react plus tailwind and redux toolkit based UI for my real estate firm CRM . y firm is called urban bhoomi.
+
+website :
+
+i want this website to have a customer module , customers will have their basic details plus contact details, along with that they will have the property preferences of which properties they want to buy or rent or take for lease. these customer will also have a priority  in which the the agents will cater the customer to.  along with the listing page it should also have a add and edit function and also a detailed view page. 
+in the view page there should be a feature from where the admin can on a click get a list of matching propertes according to the customer's preferences. also it hould show all the interested properties that the user have shown interst in or the properties they have visited. along with a follow up history.
+add any other fields or features you want as well .
+
+also similarly there should be similar cRUD module for properties. it will store all the parameters for the prperty and its listed price, area, square footage, etc. the properties will be divided into categories and sub categries. meaning cateories can be commercial, residential, etc. and their sub categories can be: for residential- appartment, duplex, bunglow, etc. and the ere should be fields accordingly like for appartments there should be 2BHK, etc. there should be add and edit function for this module. also store the geo location for the properties. add any other features as you need.
+
+i want another module for brokers, which will store all the details of the brokers and agents in contact with the firm. it will store the basic details and contact details of the broker, and also a field to show if the agent is in affiliation with the firm itself or a third party broker in connection with the firm. there should be add and edit feature for them as well as the listing page. 
+both in the customer and the properties entries there should be a connection to brokers , meaning if that entry was listed dwith that broker's reference. also in the detail view page of the broker there should be a list  of all the referenced prperties and cutomers.
+
+now the main focus of the website is the visits / customer interactions table , this table will show all the latest interaction of a user to the firm. there would be different types of interactions- first digital property sharing- meaning when we share a list of properties digitally, follow up- which can be a follow up call which will store the preference/ updates on a visit or something, and property visit - this meaning when a user physically visited a property. there would be add/edit for these entries as well.
+the details for the interactions will vary based o the type of the interactions. 
+digital listing - it will have a list of properties that were shared and will then it will also follow up that which properties they have shortlisted from the list. 
+follow up - will have the description of the follow up
+visit- this will have the property id of which property was visited and when, also a customer feedback on how did they like the property and any comments.
+
+all the interactions will have an agent assigned to them who had conducted the interaction.
+
+in the listing page it will only show the latest entr of a customer, but in the detail view it can show a time line like structure to display all the interactions.
+
+there should be a feature where it will remind if an interaction is not updated or worked on for 20 days. and also a feature to end or pause an interaction for a customer, and it will ask for a reason as to why we are pausing/ ending the interactions. once ended the reminders  will be stopped, and if paused then it remind to resume the interaction after 40 days. 
+
+also in the main listing page there should be filters to filter the interactionsbased on customer and also based on the property, other than this yu can also add a filter based on the type of the interaction and the agent that has held the interaction.
+
+similarly there should be filters for customers and excesive filters for properties as well.
+
+add any other feature that you think will be good for the system. 
+
+aso make a dashboard with appropriate details as yu think.  
