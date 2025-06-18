@@ -1,10 +1,15 @@
 import { 
-  customers, properties, brokers, visits,
+  customers, properties, brokers, visits, interactions, propertyInterests,
   type Customer, type InsertCustomer, 
   type Property, type InsertProperty,
   type Broker, type InsertBroker,
   type Visit, type InsertVisit,
-  type VisitWithDetails
+  type VisitWithDetails,
+  type Interaction, type InsertInteraction,
+  type InteractionWithDetails,
+  type PropertyInterest, type InsertPropertyInterest,
+  type CustomerWithDetails,
+  type BrokerWithStats
 } from "@shared/schema";
 
 export interface IStorage {

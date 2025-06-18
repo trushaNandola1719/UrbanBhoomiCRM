@@ -1,11 +1,12 @@
 import { Link, useLocation } from "wouter";
-import { Building, LayoutDashboard, Users, Home, CalendarCheck, UserRoundCheck, Settings } from "lucide-react";
+import { Building, LayoutDashboard, Users, Home, CalendarCheck, UserRoundCheck, MessageSquare, Settings } from "lucide-react";
 import { cn, getInitials } from "@/lib/utils";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Customers", href: "/customers", icon: Users },
   { name: "Properties", href: "/properties", icon: Home },
+  { name: "Interactions", href: "/interactions", icon: MessageSquare },
   { name: "Visit History", href: "/visits", icon: CalendarCheck },
   { name: "Brokers", href: "/brokers", icon: UserRoundCheck },
 ];

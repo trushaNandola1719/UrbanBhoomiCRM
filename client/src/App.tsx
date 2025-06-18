@@ -8,6 +8,7 @@ import Dashboard from "@/pages/dashboard";
 import Customers from "@/pages/customers";
 import Properties from "@/pages/properties";
 import Visits from "@/pages/visits";
+import Interactions from "@/pages/interactions";
 import Brokers from "@/pages/brokers";
 import NotFound from "@/pages/not-found";
 
@@ -20,6 +21,7 @@ function Router() {
           <Route path="/" component={Dashboard} />
           <Route path="/customers" component={Customers} />
           <Route path="/properties" component={Properties} />
+          <Route path="/interactions" component={Interactions} />
           <Route path="/visits" component={Visits} />
           <Route path="/brokers" component={Brokers} />
           <Route component={NotFound} />
