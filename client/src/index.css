@@ -68,7 +68,7 @@
   body {
     @apply font-sans antialiased;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    color: hsl(var(--urban-text));
+    color: var(--urban-text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
@@ -79,12 +79,12 @@
   }
   
   .sidebar-nav-item.active {
-    background-color: hsl(var(--urban-primary));
+    background-color: var(--urban-primary);
     color: white;
   }
   
   .sidebar-nav-item.active:hover {
-    background-color: hsl(var(--urban-primary));
+    background-color: var(--urban-primary);
     color: white;
   }
   
@@ -97,7 +97,10 @@
   }
   
   .data-table th {
-    @apply px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+    @apply px-6 py-4 text-left text-xs tracking-wide uppercase tracking-wider;
+    background-color: var(--urban-primary);
+    font-weight: 550;
+    color: white;
   }
   
   .data-table td {
@@ -124,7 +127,7 @@
   }
   
   .btn-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, #2e5ca7 0%, #173483 100%);
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 0.75rem;
@@ -135,7 +138,7 @@
   }
   
   .btn-primary:hover {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    background: linear-gradient(135deg, #2e5ca7 0%, #173483 100%);
     transform: translateY(-1px);
     box-shadow: 0 6px 12px -1px rgba(59, 130, 246, 0.4);
   }

@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency, getInitials } from "@/lib/utils";
 import BrokerForm from "@/components/forms/broker-form";
 import type { Broker } from "@shared/schema";
+import Header from "@/components/layout/header";
 
 export default function Brokers() {
   const [search, setSearch] = useState("");
@@ -56,7 +57,7 @@ export default function Brokers() {
   return (
     <>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+      {/* <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-urban-text">Broker Management</h2>
@@ -85,6 +86,11 @@ export default function Brokers() {
                 <SelectItem value="inactive">Inactive</SelectItem>
               </SelectContent>
             </Select>
+            </div>
+            </div>
+      </header> */}
+
+      <Header title='Brokers'>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="btn-primary" onClick={() => setEditingBroker(null)}>
@@ -104,9 +110,7 @@ export default function Brokers() {
                 />
               </DialogContent>
             </Dialog>
-          </div>
-        </div>
-      </header>
+      </Header>
 
       {/* Content Area */}
       <main className="flex-1 overflow-y-auto p-6">

@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import PropertyForm from "@/components/forms/property-form";
 import type { Property } from "@shared/schema";
+import Header from "@/components/layout/header";
 
 export default function Properties() {
   const [search, setSearch] = useState("");
@@ -110,7 +111,7 @@ export default function Properties() {
   return (
     <>
       {/* Modern Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
+      {/* <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Property Portfolio</h1>
@@ -120,34 +121,15 @@ export default function Properties() {
             </p>
           </div>
           
-          {/* Quick Actions */}
+          {/* Quick Actions 
           <div className="flex items-center gap-3">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="btn-primary flex items-center gap-2" onClick={() => setEditingProperty(null)}>
-                  <Plus className="h-5 w-5" />
-                  Add New Property
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>
-                    {editingProperty ? "Edit Property" : "Add New Property"}
-                  </DialogTitle>
-                </DialogHeader>
-                <PropertyForm
-                  property={editingProperty}
-                  onSuccess={handleCloseDialog}
-                />
-              </DialogContent>
-            </Dialog>
           </div>
-        </div>
-
-        {/* Modern Filter Panel */}
+          </div>
+          
+        * Modern Filter Panel 
         <div className="modern-filter-row">
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Search Bar */}
+            /* Search Bar 
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
@@ -159,7 +141,7 @@ export default function Properties() {
               />
             </div>
 
-            {/* Primary Filters */}
+            /* Primary Filters 
             <div className="flex flex-wrap gap-3">
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger className="modern-select w-40">
@@ -201,7 +183,7 @@ export default function Properties() {
               </Select>
             </div>
 
-            {/* Secondary Filters */}
+            /* Secondary Filters 
             <div className="flex flex-wrap gap-3">
               <Select value={cityFilter} onValueChange={setCityFilter}>
                 <SelectTrigger className="modern-select w-32">
@@ -256,12 +238,12 @@ export default function Properties() {
             </div>
           </div>
 
-          {/* Active Filters Display */}
+          {/* Active Filters Display 
           {(search || categoryFilter !== "all" || priceRangeFilter !== "all" || bedroomsFilter !== "all" || cityFilter !== "all" || furnishingFilter !== "all" || parkingFilter !== "all") && (
             <div className="mt-4 pt-4 border-t border-gray-100">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-sm font-medium text-gray-700">Active filters:</span>
-                {search && <span className="filter-badge">Search: "{search}"</span>}
+            <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-sm font-medium text-gray-700">Active filters:</span>
+            {search && <span className="filter-badge">Search: "{search}"</span>}
                 {categoryFilter !== "all" && <span className="filter-badge">Type: {getCategoryLabel(categoryFilter)}</span>}
                 {priceRangeFilter !== "all" && <span className="filter-badge">Price: {priceRangeFilter}</span>}
                 {bedroomsFilter !== "all" && <span className="filter-badge">BHK: {bedroomsFilter}</span>}
@@ -272,7 +254,29 @@ export default function Properties() {
             </div>
           )}
         </div>
-      </header>
+      </header> */}
+
+      <Header title="Properties">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="btn-primary flex items-center gap-2" onClick={() => setEditingProperty(null)}>
+                  <Plus className="h-5 w-5" />
+                  Add New Property
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>
+                    {editingProperty ? "Edit Property" : "Add New Property"}
+                  </DialogTitle>
+                </DialogHeader>
+                <PropertyForm
+                  property={editingProperty}
+                  onSuccess={handleCloseDialog}
+                />
+              </DialogContent>
+            </Dialog>
+      </Header>
 
       {/* Content Area */}
       <main className="flex-1 overflow-y-auto p-6">

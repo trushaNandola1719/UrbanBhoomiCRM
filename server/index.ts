@@ -1,8 +1,10 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { getAllCustomers } from "./db/customers";
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -46,6 +48,10 @@ app.use((req, res, next) => {
     res.status(status).json({ message });
     throw err;
   });
+
+
+
+  
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route

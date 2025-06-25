@@ -7,7 +7,7 @@ const navigation = [
   { name: "Customers", href: "/customers", icon: Users },
   { name: "Properties", href: "/properties", icon: Home },
   { name: "Interactions", href: "/interactions", icon: MessageSquare },
-  { name: "Visit History", href: "/visits", icon: CalendarCheck },
+  // { name: "Visit History", href: "/visits", icon: CalendarCheck },
   { name: "Brokers", href: "/brokers", icon: UserRoundCheck },
 ];
 

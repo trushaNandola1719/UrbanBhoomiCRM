@@ -31,6 +31,13 @@ export default function CustomerForm({ customer, onSuccess }: CustomerFormProps)
       name: customer?.name || "",
       email: customer?.email || "",
       phone: customer?.phone || "",
+      alternatePhone: customer?.alternatePhone || "",
+      city: customer?.city || "",
+      state: customer?.state || "",
+      occupation: customer?.occupation || "",
+      caste: customer?.caste || "",
+      priority: customer?.priority || "",
+      purpose: customer?.purpose || "",
       preferences: customer?.preferences || "",
       budgetMin: customer?.budgetMin || "",
       budgetMax: customer?.budgetMax || "",
@@ -100,12 +107,12 @@ export default function CustomerForm({ customer, onSuccess }: CustomerFormProps)
 
           <FormField
             control={form.control}
-            name="phone"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel>Email Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="+91 XXXXX XXXXX" {...field} />
+                  <Input type="email" placeholder="email@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -114,12 +121,26 @@ export default function CustomerForm({ customer, onSuccess }: CustomerFormProps)
 
           <FormField
             control={form.control}
-            name="email"
+            name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email Address</FormLabel>
+                <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="email@example.com" {...field} />
+                  <Input placeholder="XXXXX XXXXX" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Alternate Phone Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="XXXXX XXXXX" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -141,7 +162,29 @@ export default function CustomerForm({ customer, onSuccess }: CustomerFormProps)
                   <SelectContent>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="follow-up">Follow-up</SelectItem>
+                    {/* <SelectItem value="follow-up">Follow-up</SelectItem> */}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Priority</FormLabel>
+                <Select onValueChange={field.onChange} >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select priority" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -149,6 +192,7 @@ export default function CustomerForm({ customer, onSuccess }: CustomerFormProps)
             )}
           />
         </div>
+
 
         <FormField
           control={form.control}

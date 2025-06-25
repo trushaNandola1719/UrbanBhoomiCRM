@@ -11,6 +11,7 @@ import Visits from "@/pages/visits";
 import Interactions from "@/pages/interactions";
 import Brokers from "@/pages/brokers";
 import NotFound from "@/pages/not-found";
+import CustomerView  from "@/pages/custome-view";
 
 function Router() {
   return (
@@ -20,9 +21,10 @@ function Router() {
         <Switch>
           <Route path="/" component={Dashboard} />
           <Route path="/customers" component={Customers} />
+          <Route path="/customers/view/:id" component={CustomerView} />
           <Route path="/properties" component={Properties} />
           <Route path="/interactions" component={Interactions} />
-          <Route path="/visits" component={Visits} />
+          {/* <Route path="/visits" component={Visits} /> */}
           <Route path="/brokers" component={Brokers} />
           <Route component={NotFound} />
         </Switch>

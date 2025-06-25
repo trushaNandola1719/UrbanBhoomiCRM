@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Building, Users, Home, CalendarCheck, TrendingUp } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import Header from "@/components/layout/header";
 
 export default function Dashboard() {
   const { data: metrics, isLoading } = useQuery({
@@ -19,7 +20,7 @@ export default function Dashboard() {
   return (
     <>
       {/* Modern Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
+      {/* <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
@@ -38,8 +39,21 @@ export default function Dashboard() {
               })}
             </div>
           </div>
-        </div>
-      </header>
+          </div>
+          </header> */}
+
+      <Header title="Dashboard">
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-500 bg-gray-50 px-4 py-2 rounded-full">
+              {new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </div>
+          </div>
+      </Header>
 
       {/* Content Area */}
       <main className="flex-1 overflow-y-auto p-6">

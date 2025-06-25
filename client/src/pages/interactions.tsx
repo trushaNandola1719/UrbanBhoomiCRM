@@ -37,6 +37,8 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import type { InteractionWithDetails, Customer, Broker, Property } from "@shared/schema";
 import InteractionForm from "@/components/forms/interaction-form";
+import Header from "@/components/layout/header";
+import Filters from "@/components/layout/filters";
 
 export default function Interactions() {
   const [search, setSearch] = useState("");
@@ -97,9 +99,9 @@ export default function Interactions() {
   });
 
   const filteredInteractions = interactions.filter((interaction) => {
-    const matchesSearch = interaction.title.toLowerCase().includes(search.toLowerCase()) ||
-                         interaction.customer.name.toLowerCase().includes(search.toLowerCase()) ||
-                         interaction.broker.name.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = interaction?.title?.toLowerCase().includes(search.toLowerCase()) ||
+                         interaction?.customer?.name?.toLowerCase().includes(search.toLowerCase()) ||
+                         interaction?.broker?.name?.toLowerCase().includes(search.toLowerCase());
     
     const matchesType = typeFilter === "all" || interaction.type === typeFilter;
     const matchesStatus = statusFilter === "all" || interaction.status === statusFilter;
@@ -174,7 +176,7 @@ export default function Interactions() {
   return (
     <>
       {/* Modern Header */}
-      <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
+      {/* <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 px-8 py-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Customer Interactions</h1>
@@ -193,32 +195,13 @@ export default function Interactions() {
           </div>
           
           <div className="flex items-center gap-3">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="btn-primary flex items-center gap-2" onClick={() => setEditingInteraction(null)}>
-                  <Plus className="h-5 w-5" />
-                  New Interaction
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>
-                    {editingInteraction ? "Edit Interaction" : "Create New Interaction"}
-                  </DialogTitle>
-                </DialogHeader>
-                <InteractionForm
-                  interaction={editingInteraction}
-                  onSuccess={handleCloseDialog}
-                />
-              </DialogContent>
-            </Dialog>
           </div>
-        </div>
+          </div>
 
-        {/* Filter Panel */}
+        /* Filter Panel /
         <div className="modern-filter-row">
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Search Bar */}
+            /* Search Bar /
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
@@ -230,7 +213,7 @@ export default function Interactions() {
               />
             </div>
 
-            {/* Filters */}
+            /* Filters /
             <div className="flex flex-wrap gap-3">
               <Select value={typeFilter} onValueChange={setTypeFilter}>
                 <SelectTrigger className="modern-select w-40">
@@ -243,7 +226,7 @@ export default function Interactions() {
                   <SelectItem value="property_visit">🏠 Property Visit</SelectItem>
                 </SelectContent>
               </Select>
-
+              
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="modern-select w-36">
                   <SelectValue placeholder="Status" />
@@ -263,17 +246,17 @@ export default function Interactions() {
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Priority</SelectItem>
-                  <SelectItem value="high">🔴 High</SelectItem>
-                  <SelectItem value="medium">🟡 Medium</SelectItem>
+                <SelectItem value="all">All Priority</SelectItem>
+                <SelectItem value="high">🔴 High</SelectItem>
+                <SelectItem value="medium">🟡 Medium</SelectItem>
                   <SelectItem value="low">🟢 Low</SelectItem>
                 </SelectContent>
               </Select>
 
               <Button 
-                variant="outline" 
-                onClick={() => {
-                  setSearch("");
+              variant="outline" 
+              onClick={() => {
+                setSearch("");
                   setTypeFilter("all");
                   setStatusFilter("all");
                   setCustomerFilter("all");
@@ -286,8 +269,101 @@ export default function Interactions() {
               </Button>
             </div>
           </div>
-        </div>
-      </header>
+          </div>
+          </header> */}
+
+      <Header title="Customer Interactions">
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button className="btn-primary flex items-center gap-2" onClick={() => setEditingInteraction(null)}>
+              <Plus className="h-5 w-5" />
+              New Interaction
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>
+                {editingInteraction ? "Edit Interaction" : "Create New Interaction"}
+              </DialogTitle>
+            </DialogHeader>
+            <InteractionForm
+              interaction={editingInteraction}
+              onSuccess={handleCloseDialog}
+            />
+          </DialogContent>
+        </Dialog>
+      </Header>
+      
+      <Filters>
+
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search interactions, customers, or brokers..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="modern-input pl-11 pr-4"
+            />
+          </div>
+
+          
+          <div className="flex flex-wrap gap-3">
+            <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <SelectTrigger className="modern-select w-40">
+                <SelectValue placeholder="Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="digital_sharing">📤 Digital Sharing</SelectItem>
+                <SelectItem value="follow_up">📞 Follow Up</SelectItem>
+                <SelectItem value="property_visit">🏠 Property Visit</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="modern-select w-36">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="pending">⏳ Pending</SelectItem>
+                <SelectItem value="in_progress">🔄 In Progress</SelectItem>
+                <SelectItem value="completed">✅ Completed</SelectItem>
+                <SelectItem value="paused">⏸️ Paused</SelectItem>
+                <SelectItem value="ended">❌ Ended</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+              <SelectTrigger className="modern-select w-32">
+                <SelectValue placeholder="Priority" />
+              </SelectTrigger>
+              <SelectContent>
+              <SelectItem value="all">All Priority</SelectItem>
+              <SelectItem value="high">🔴 High</SelectItem>
+              <SelectItem value="medium">🟡 Medium</SelectItem>
+                <SelectItem value="low">🟢 Low</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Button 
+            variant="outline" 
+            onClick={() => {
+              setSearch("");
+                setTypeFilter("all");
+                setStatusFilter("all");
+                setCustomerFilter("all");
+                setBrokerFilter("all");
+                setPriorityFilter("all");
+              }}
+              className="px-4 py-2 text-sm"
+            >
+              Clear All
+            </Button>
+          </div>
+        
+      </Filters>
 
       {/* Content Area */}
       <main className="flex-1 overflow-y-auto p-8">

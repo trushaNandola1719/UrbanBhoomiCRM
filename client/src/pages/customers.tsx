@@ -12,6 +12,9 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency, getInitials, getRelativeTime } from "@/lib/utils";
 import CustomerForm from "@/components/forms/customer-form";
 import type { Customer } from "@shared/schema";
+import { navigate } from "wouter/use-browser-location";
+import Header from "../components/layout/header";
+import Filters from "@/components/layout/filters";
 
 export default function Customers() {
   const [search, setSearch] = useState("");
@@ -65,7 +68,7 @@ export default function Customers() {
   return (
     <>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+      {/* <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-urban-text">Customer Management</h2>
@@ -91,11 +94,35 @@ export default function Customers() {
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>  
                 <SelectItem value="follow-up">Follow-up</SelectItem>
               </SelectContent>
             </Select>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+                <Button className="btn-primary" onClick={() => setEditingCustomer(null)}>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Customer
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>
+                    {editingCustomer ? "Edit Customer" : "Add New Customer"}
+                    </DialogTitle>
+                    </DialogHeader>
+                <CustomerForm
+                  customer={editingCustomer}
+                  onSuccess={handleCloseDialog}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+        </header> */}
+
+      <Header title="Customers">
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="btn-primary" onClick={() => setEditingCustomer(null)}>
                   <Plus className="mr-2 h-4 w-4" />
@@ -114,9 +141,31 @@ export default function Customers() {
                 />
               </DialogContent>
             </Dialog>
+      </Header>
+
+      <Filters>
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Search customers..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10 pr-4 py-2 w-64"
+            />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           </div>
-        </div>
-      </header>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="All Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="inactive">Inactive</SelectItem>  
+              {/* <SelectItem value="follow-up">Follow-up</SelectItem> */}
+            </SelectContent>
+          </Select>
+      </Filters>
 
       {/* Content Area */}
       <main className="flex-1 overflow-y-auto p-6">
@@ -185,8 +234,11 @@ export default function Customers() {
                         </td>
                         <td>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm">
-                              <Eye className="h-4 w-4 text-urban-primary" />
+                            <Button variant="ghost" size="sm" onClick={()=> {
+                                navigate(`customers/view/${customer.id}`)
+                                console.log('navigating')
+                                }}>
+                              <Eye className="h-4 w-4 text-urban-primary"  />
                             </Button>
                             <Button variant="ghost" size="sm" onClick={() => handleEdit(customer)}>
                               <Edit className="h-4 w-4 text-urban-secondary" />
